@@ -30,14 +30,14 @@ exports.findByParameter = function (req, res){
 	var collectionName = req.params.collection;
 	var parameter = req.params.parameter;
 	var value = req.params.value;
-	console.log('p', parameter);
-	console.log(value);
+	var pair = {};
+	pair[parameter] = value;
 	MongoClient.connect('mongodb://127.0.0.1:27017/rtd', function(err, db) {
 		if(err) throw err;
-		db.collection(collectionName).find({"parameter" : value})
+		db.collection(collectionName).find(pair)
 		.limit(10)
 		.toArray(function(err, docs) {
-			res.send({parameter:value});
+			res.send(docs);
 		});
 	});
 };
