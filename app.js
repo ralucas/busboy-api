@@ -6,10 +6,10 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
+var api = require('./routes/api');
 var http = require('http');
 var path = require('path');
-var MongoClient = require('mongodb').MongoClient
-    , format = require('util').format;
+
 var mongoose = require('mongoose');
 
 var app = express();
@@ -39,15 +39,9 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 
 //routing for mongo rest api
-app.get('/:id', function (req, res){
-	var collectionName = req.params.id;
-	MongoClient.connect('mongodb://127.0.0.1:27017/rtd', function(err, db) {
-		if(err) throw err;
-		db.collection(collectionName).find({}).limit(10).toArray(function(err, docs) {
-			res.send(docs);
-		});
-	});
-});
+app.get('/:collection', api.findAll);
+app.get('/:collection/:id', api.findById);
+app.get('/:collection/:parameter/:value', api.findByParameter);
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
