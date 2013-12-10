@@ -15,7 +15,7 @@ var mongoose = require('mongoose');
 var app = express();
 var server = http.createServer(app);
 
-mongoose.connect("mongodb://localhost/rtd");
+//mongoose.connect("mongodb://localhost/rtd");
 
 // all environments
 app.set('port', process.env.PORT || 3000);
