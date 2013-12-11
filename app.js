@@ -1,8 +1,4 @@
 
-/**
- * Module dependencies.
- */
-
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
@@ -34,13 +30,13 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/list', api.getCollectionData);
 
 //routing for mongo rest api
 app.get('/:collection', api.findAll);
-app.get('/:collection/:id', api.findById);
+//app.get('/:collection/:id', api.findById);
 app.get('/:collection/:parameter/:value', api.findByParameter);
 
 server.listen(app.get('port'), function(){

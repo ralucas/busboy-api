@@ -1,7 +1,17 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  p Api Links
-  a(href="/stops") Stops
+	h1= title
+	p Welcome to #{title}
+	p Api Links
+	h2 Welcome to our RTD REST API.  Please refer to the links and documentation below as to how best to use it.
+	<p class="lead">
+
+	</p>
+	div#routes
+	
+	script(src="//code.jquery.com/jquery-1.10.2.min.js")
+	script(src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js")
+	script(type="text/javascript" src="/javascripts/main.js")
+
+	include hbars.html

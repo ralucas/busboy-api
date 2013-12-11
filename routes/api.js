@@ -20,14 +20,18 @@ exports.findAll = function (req, res){
 
 exports.findById = function (req, res){
 	var collectionName = req.params.collection;
-	var id = req.params.id;
-	MongoClient.connect(MongoUrl, function(err, db) {
-		if(err) throw err;
-		db.collection(collectionName).findOne({'_id' : new ObjectID(id)},
-			function(err, doc){
-				res.send(doc);
+	console.log(collectionName);
+	//if(collectionName !== 'javascripts' && collectionName !== 'stylesheets'){
+		var id = req.params.id;
+		MongoClient.connect(MongoUrl, function(err, db) {
+			if(err) throw err;
+			db.collection(collectionName)
+			.findOne({'_id' : new ObjectID(id)},
+				function(err, doc){
+					res.send(doc);
+				});
 			});
-	});
+	//	}
 };
 
 exports.findByParameter = function (req, res){
@@ -42,6 +46,15 @@ exports.findByParameter = function (req, res){
 		.limit(10)
 		.toArray(function(err, docs) {
 			res.send(docs);
+		});
+	});
+};
+
+exports.getCollectionData = function (req, res){
+	MongoClient.connect(MongoUrl, function(err, db) {
+		if(err) throw err;
+		db.collectionNames(function(err, collections){
+			res.send(collections);
 		});
 	});
 };
