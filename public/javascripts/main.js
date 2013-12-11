@@ -8,10 +8,11 @@ $(function(){
 		for(var i = 0; i < data.length; i++){
 			var obj = {};
 			var name = data[i]["name"].split('.');
-			obj["name"] = name[1];
-			nameArr.push(obj);
+			if(name[1] !== 'system'){
+				obj["name"] = name[1];
+				nameArr.push(obj);
+			}
 		}
-		var html = template(data);
 		$("#routes").html(template({colls : nameArr}));
 	});
 
