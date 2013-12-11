@@ -6,6 +6,25 @@ var ObjectID = require('mongodb').ObjectID;
 var localMongo = 'mongodb://127.0.0.1:27017/rtd';
 var MongoUrl = process.env.MONGOHQ_URL ? process.env.MONGOHQ_URL : localMongo;
 
+//values function
+var values = function(arr, key){
+    fieldArray = [];
+    for(var i = 0; i < arr.length; i++){
+        fieldArray.push(arr[i][key]);
+    }
+    return fieldArray;
+};
+
+var prefixRemove = function(arr){
+    var nameArr = [];
+    var result = [];
+    for(var i = 0; i < arr.length; i++){
+        var name = arr[i].split(".");
+        result.push(name[1]);
+    }
+    return result;
+};
+
 exports.findAll = function (req, res){
 	var collectionName = req.params.collection;
 	MongoClient.connect(MongoUrl, function(err, db) {
@@ -18,11 +37,10 @@ exports.findAll = function (req, res){
 	});
 };
 
-exports.findById = function (req, res){
+exports.findById = function (req, res, next){
 	var collectionName = req.params.collection;
-	console.log(collectionName);
-	//if(collectionName !== 'javascripts' && collectionName !== 'stylesheets'){
-		var id = req.params.id;
+	var id = req.params.id;
+	if(collectionName !== 'javascripts' || collectionName !== 'stylesheets')next();
 		MongoClient.connect(MongoUrl, function(err, db) {
 			if(err) throw err;
 			db.collection(collectionName)
@@ -54,6 +72,15 @@ exports.getCollectionData = function (req, res){
 	MongoClient.connect(MongoUrl, function(err, db) {
 		if(err) throw err;
 		db.collectionNames(function(err, collections){
+			console.log(collections);
+			var names = values(collections, "name");
+			console.log(names);
+			var a = prefixRemove(names);
+			for(var i = 0; i < a.length; i++){}
+			db.collection(a[6])
+			.findOne({}, function(err, docs){
+				console.log('f',docs);
+			});
 			res.send(collections);
 		});
 	});

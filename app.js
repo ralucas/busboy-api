@@ -5,7 +5,7 @@ var user = require('./routes/user');
 var api = require('./routes/api');
 var http = require('http');
 var path = require('path');
-
+var _ = require('underscore');
 var mongoose = require('mongoose');
 
 var app = express();

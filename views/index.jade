@@ -1,12 +1,30 @@
 extends layout
 
 block content
-	h1 Welcome to our #{title}  
-	p.lead Please refer to the links and documentation below as to how best to use it.
-	<p class="lead">
-
-	</p>
-	div#routes
+	.container
+		h1 Welcome to our #{title}  
+		p.lead Please refer to the links and documentation below as to how best to use it.
+		hr
+	.container
+		h3 About the API
+		.container
+			p It is designed for GET Requests only given that the data presented here is pulled directly for <a href="http://www.rtd-denver.com/Developer.shtml">Denver's RTD developer site</a> Our intention is to provide this data in an easy to utilize manner from a development perspective. Currently the api is presented in JSON format. We are planning on having a PostgreSql API available in the future with more routing and variability.
+		hr
+	.container
+		h3 Quick Docs
+		ul.list-styled
+			li.lead /[route]
+				ul
+					li This will give you the entire document
+					li Careful here, some of these are quite large
+			li.lead /[route]/[Object ID]
+				ul
+					li This will give you the one document matching that ID
+			li.lead /[route]/[field name]
+				ul
+					li This gives you the values associated with that specific field name given the route
+		hr
+	.container#routes
 	
 	script(src="//code.jquery.com/jquery-1.10.2.min.js")
 	script(src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js")

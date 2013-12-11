@@ -4,6 +4,7 @@ $(function(){
 	var template = Handlebars.compile(source);
 
 	$.get("/list", function(data){
+		console.log(data);
 		var nameArr = [];
 		for(var i = 0; i < data.length; i++){
 			var obj = {};
