@@ -1,8 +1,10 @@
 <script id="routes-template" type="text/x-handlebars-template">
-		<ul>
+		<ul class="list-unstyled">
 		{{#each colls}}
 			<li>
-				<a href="/{{name}}">{{name}}</a>
+				<p class="lead">Name: {{name}}</p>
+				<p>Route: <a href="/{{name}}"> /{{name}}</a></p>
+				<hr>
 			</li>
 		{{/each}}
 		</ul>
