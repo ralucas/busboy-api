@@ -3,8 +3,8 @@ $(function(){
 	var source = $("#routes-template").html();
 	var template = Handlebars.compile(source);
 
-	$.get("/list", function(data){
-		console.log(data);
+	$.get("/listNames", function(data){
+		//console.log(data);
 		var nameArr = [];
 		for(var i = 0; i < data.length; i++){
 			var obj = {};
@@ -15,6 +15,10 @@ $(function(){
 			}
 		}
 		$("#routes").html(template({colls : nameArr}));
+	});
+
+	$.get('/listKeys', function(data){
+		console.log(data);
 	});
 
 });

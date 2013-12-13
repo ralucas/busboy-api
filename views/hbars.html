@@ -5,6 +5,11 @@
 			<li>
 				<p class="lead">Name: {{name}}</p>
 				<p>Route: <a href="/{{name}}"> /{{name}}</a></p>
+					<ul>
+						{{#each keys}}
+							<li>{{key}}</li>
+						{{/each}}
+					</ul>
 				<hr>
 			</li>
 		{{/each}}

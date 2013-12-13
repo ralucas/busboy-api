@@ -32,11 +32,12 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.get('/list', api.getCollectionData);
+app.get('/listNames', api.getCollectionNames);
+app.get('/listKeys', api.getEachCollectionKeys);
 
 //routing for mongo rest api
 app.get('/:collection', api.findAll);
-//app.get('/:collection/:id', api.findById);
+app.get('/:collection/:id', api.findById);
 app.get('/:collection/:parameter/:value', api.findByParameter);
 
 server.listen(app.get('port'), function(){

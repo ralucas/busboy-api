@@ -68,20 +68,35 @@ exports.findByParameter = function (req, res){
 	});
 };
 
-exports.getCollectionData = function (req, res){
+exports.getCollectionNames = function (req, res){
 	MongoClient.connect(MongoUrl, function(err, db) {
 		if(err) throw err;
 		db.collectionNames(function(err, collections){
-			console.log(collections);
-			var names = values(collections, "name");
-			console.log(names);
-			var a = prefixRemove(names);
-			for(var i = 0; i < a.length; i++){}
-			db.collection(a[6])
-			.findOne({}, function(err, docs){
-				console.log('f',docs);
-			});
 			res.send(collections);
+		});
+	});
+};
+
+exports.getEachCollectionKeys = function (req, res){
+	MongoClient.connect(MongoUrl, function(err, db){
+		db.collectionNames(function(err, collections){
+			var names = values(collections, "name");
+			var collNames = prefixRemove(names);
+			var keyArr = [];
+			for(var i = 0; i < collNames.length; i++){
+				console.log('i', i);
+				db.collection(collNames[i])
+				.findOne({}, function(err, docs){
+					keyArr.push(docs);
+					console.log(i);
+					// //console.log(collNames.length);
+					// if(i === (collNames.length -1)){
+					// 	console.log(keyArr);
+					// }
+				});
+				//console.log(keyArr);
+			}
+			//res.send(keyArr);
 		});
 	});
 };
