@@ -6,12 +6,9 @@ var api = require('./routes/api');
 var http = require('http');
 var path = require('path');
 var _ = require('underscore');
-var mongoose = require('mongoose');
 
 var app = express();
 var server = http.createServer(app);
-
-//mongoose.connect("mongodb://localhost/rtd");
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -30,15 +27,19 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+//page routing
 app.get('/', routes.index);
 app.get('/users', user.list);
+
+//ajax request processing
 app.get('/listNames', api.getCollectionNames);
 app.get('/listKeys', api.getEachCollectionKeys);
 
 //routing for mongo rest api
 app.get('/:collection', api.findAll);
-app.get('/:collection/:id', api.findById);
-app.get('/:collection/:parameter/:value', api.findByParameter);
+//app.get('/:collection/:id', api.findById);
+//app.get('/:collection/:parameter', api.findByParameter);
+app.get('/:collection/:parameter/:value', api.findByValue);
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

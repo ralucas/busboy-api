@@ -5,13 +5,17 @@
 			<li>
 				<p class="lead">Name: {{name}}</p>
 				<p>Route: <a href="/{{name}}"> /{{name}}</a></p>
-					<ul>
-						{{#each keys}}
-							<li>{{key}}</li>
-						{{/each}}
-					</ul>
+					{{> keys}}
 				<hr>
 			</li>
 		{{/each}}
 		</ul>
+</script>
+
+<script id="keys-partial" type="text/x-handlebars-template">
+	<ul class="keys">
+		{{#each keys}}
+			<li>{{key}}</li>
+		{{/each}}
+	</ul>
 </script>
