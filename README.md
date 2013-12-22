@@ -1,6 +1,7 @@
 API for RTD Busboy
 ==================
-* Uses node, express, and Mongodb
+* Can be currently found at http://sheltered-shelf-6005.herokuapp.com
+* Please feel free to test and give me feedback.
 
 About the API
 ----------------
@@ -9,3 +10,7 @@ It is designed for GET Requests only given that the data presented here is pulle
 How to setup:
 -------------
 * Coming Soon
+
+######Cheers!
+
+######Richard
