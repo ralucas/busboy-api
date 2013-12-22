@@ -33,7 +33,7 @@ app.get('/users', user.list);
 
 //ajax request processing
 app.get('/listNames', api.getCollectionNames);
-app.get('/listKeys', api.getEachCollectionKeys);
+//app.get('/listKeys', api.getEachCollectionKeys);
 
 //routing for mongo rest api
 app.get('/:collection', api.findAll);

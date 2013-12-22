@@ -8,7 +8,11 @@ block content
 	.container
 		h3 About the API
 		.container
-			p It is designed for GET Requests only given that the data presented here is pulled directly for <a href="http://www.rtd-denver.com/Developer.shtml">Denver's RTD developer site</a> Our intention is to provide this data in an easy to utilize manner from a development perspective. Currently the api is presented in JSON format. We are planning on having a PostgreSql API available in the future with more routing and variability.
+			p It is designed for GET Requests only given that the data presented here is pulled directly for
+				| <a href="http://www.rtd-denver.com/Developer.shtml">Denver's RTD developer site</a>.
+				| Our intention is to provide this data in an easy to utilize manner from a development perspective.
+				| Currently the api is presented in JSON format. We are planning on having a PostgreSql API available 
+				|in the future with more routing and variability.
 		hr
 	.container
 		h3 Quick Docs
@@ -20,13 +24,14 @@ block content
 			li.lead /[route]/[Object ID]
 				ul
 					li This will give you the one document matching that ID
-			li.lead /[route]/[field name]
+			li.lead /[route]/[field name]/[value]
 				ul
-					li This gives you the values associated with that specific field name given the route
+					li This gives you the documents matching those values associated with that specific field name given the route
 		hr
 	.container#routes
 	
 	script(src="//code.jquery.com/jquery-1.10.2.min.js")
+	script(src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js")
 	script(src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js")
 	script(type="text/javascript" src="/javascripts/main.js")
 

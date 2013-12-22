@@ -1,21 +1,21 @@
 <script id="routes-template" type="text/x-handlebars-template">
 	<h3>The API</h3>	
 		<ul class="list-unstyled">
-		{{#each colls}}
+		{{#each_key colls}}
 			<li>
-				<p class="lead">Name: {{name}}</p>
-				<p>Route: <a href="/{{name}}"> /{{name}}</a></p>
+				<p class="lead">Name: {{key}}</p>
+				<p>Route: <a href="/{{key}}"> /{{key}}</a></p>
 					{{> keys}}
 				<hr>
 			</li>
-		{{/each}}
+		{{/each_key}}
 		</ul>
 </script>
 
 <script id="keys-partial" type="text/x-handlebars-template">
 	<ul class="keys">
-		{{#each keys}}
-			<li>{{key}}</li>
+		{{#each prop}}
+			<li>{{this}}</li>
 		{{/each}}
 	</ul>
 </script>

@@ -8,4 +8,4 @@ It is designed for GET Requests only given that the data presented here is pulle
 
 How to setup:
 -------------
-*Coming Soon
+* Coming Soon

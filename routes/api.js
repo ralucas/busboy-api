@@ -89,7 +89,27 @@ exports.getCollectionNames = function (req, res){
 	MongoClient.connect(MongoUrl, function(err, db) {
 		if(err) throw err;
 		db.collectionNames(function(err, collections){
-			res.send(collections);
+			var colls = values(collections, 'name');
+			var collNames = prefixRemove(colls);
+			var keyArr = [];
+			collNames.forEach(function(element, index, collNames){
+				db.collection(element)
+				.findOne({}, function(err, docs){
+					if(docs){
+						var arr = [];
+						for(var key in docs){
+							arr.push(key);
+						}
+						var keyObj = {};
+						keyObj[element] = arr;
+						console.log(keyObj);
+						keyArr.push(keyObj);
+					}
+					setTimeout(function(){
+						res.send(keyArr);
+					},100);
+				});
+			});
 		});
 	});
 };
