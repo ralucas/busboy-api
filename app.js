@@ -37,7 +37,7 @@ app.get('/listNames', api.getCollectionNames);
 //routing for mongo rest api
 app.get('/api/:collection', api.findAll);
 app.get('/api/:collection/:id', api.findById);
-app.get('/api/:collection/:parameter', api.findByParameter);
+//app.get('/api/:collection/:parameter', api.findByParameter);
 app.get('/api/:collection/:parameter/:value', api.findByValue);
 
 server.listen(app.get('port'), function(){
