@@ -4,6 +4,7 @@ var _ = require('underscore');
 var ObjectID = require('mongodb').ObjectID;
 var mongoose = require('mongoose');
 var async = require('async');
+var Q = require('q');
 
 var localMongo = 'mongodb://127.0.0.1:27017/rtd';
 var MongoUrl = process.env.MONGOHQ_URL ? process.env.MONGOHQ_URL : localMongo;
@@ -19,6 +20,7 @@ var values = function(arr, key){
     return fieldArray;
 };
 
+//remove db prefix attached to each collection (i.e. 'rtd')
 var prefixRemove = function(arr){
     var result = [];
     for(var i = 0; i < arr.length; i++){
@@ -28,6 +30,11 @@ var prefixRemove = function(arr){
     return result;
 };
 
+////
+//api functions
+////
+
+//sends entire collection
 exports.findAll = function (req, res){
 	var collectionName = req.params.collection;
 	MongoClient.connect(MongoUrl, function(err, db) {
@@ -40,6 +47,7 @@ exports.findAll = function (req, res){
 	});
 };
 
+//finds single document by _id and sends it
 exports.findById = function (req, res, next){
 	var collectionName = req.params.collection;
 	var id = req.params.id;
@@ -51,10 +59,10 @@ exports.findById = function (req, res, next){
 				function(err, doc){
 					res.send(doc);
 				});
-			});
-	//	}
+		});
 };
 
+//not sure this is needed
 exports.findByParameter = function (req, res){
 	var collectionName = req.params.collection;
 	var parameter = req.params.parameter;
@@ -68,6 +76,9 @@ exports.findByParameter = function (req, res){
 	});
 };
 
+//finds a document by it's collection/key/value
+//and sends back those documents that have that
+//value -- need to be able to offer a range here
 exports.findByValue = function (req, res){
 	var collectionName = req.params.collection;
 	var parameter = req.params.parameter;
@@ -84,9 +95,9 @@ exports.findByValue = function (req, res){
 	});
 };
 
-
+//creates array of collection names and their associated keys
 exports.getCollectionNames = function (req, res){
-	MongoClient.connect(MongoUrl, function(err, db) {
+	MongoClient.connect(MongoUrl).then(function(err, db) {
 		if(err) throw err;
 		db.collectionNames(function(err, collections){
 			var colls = values(collections, 'name');
@@ -94,7 +105,8 @@ exports.getCollectionNames = function (req, res){
 			var keyArr = [];
 			collNames.forEach(function(element, index, collNames){
 				db.collection(element)
-				.findOne({}, function(err, docs){
+				.findOne({},
+					function(err, docs){
 					if(docs){
 						var arr = [];
 						for(var key in docs){
@@ -102,19 +114,17 @@ exports.getCollectionNames = function (req, res){
 						}
 						var keyObj = {};
 						keyObj[element] = arr;
-						console.log(keyObj);
 						keyArr.push(keyObj);
 					}
-					setTimeout(function(){
-						res.send(keyArr);
-					},100);
+					Q.all(keyArr).then(res.send(keyArr));
+					// setTimeout(function(){
+					// 	res.send(keyArr);
+					// },100);
 				});
 			});
 		});
 	});
 };
-
-var newArr = [];
 
 var getCollections = function(arr){
 	MongoClient.connect(MongoUrl, function(err, db){
@@ -126,26 +136,6 @@ var getCollections = function(arr){
 		});
 	});
 };
-
-//setTimeout(getCollections(), 5000);
-
-// var getCollectionKeys = function(){
-// 			var colls = getCollections(newArr);
-// 			console.log('colls',colls);
-// 			var names = values(colls, "name");
-// 			var collNames = prefixRemove(names);
-// 			console.log('cn', collNames);
-// 			var keyArr = [];
-// 			collNames.forEach(function(element, index, collNames){
-// 				db.collection(element)
-// 				.findOne({}, function(err, docs){
-// 					keyArr.push(docs);
-// 				});
-// 				console.log(keyArr);
-// 			});
-// 			console.log('ka', keyArr);
-// 			return keyArr;
-// 		};
 
 exports.getEachCollectionKeys = function (req, res){
 	MongoClient.connect(MongoUrl, function(err, db){
@@ -168,4 +158,3 @@ exports.getEachCollectionKeys = function (req, res){
 		});
 	});
 };
-

@@ -1,4 +1,4 @@
-
+// Module dependencies
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
@@ -33,13 +33,12 @@ app.get('/users', user.list);
 
 //ajax request processing
 app.get('/listNames', api.getCollectionNames);
-//app.get('/listKeys', api.getEachCollectionKeys);
 
 //routing for mongo rest api
-app.get('/:collection', api.findAll);
-//app.get('/:collection/:id', api.findById);
-//app.get('/:collection/:parameter', api.findByParameter);
-app.get('/:collection/:parameter/:value', api.findByValue);
+app.get('/api/:collection', api.findAll);
+app.get('/api/:collection/:id', api.findById);
+app.get('/api/:collection/:parameter', api.findByParameter);
+app.get('/api/:collection/:parameter/:value', api.findByValue);
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
