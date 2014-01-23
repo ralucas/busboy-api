@@ -116,10 +116,10 @@ exports.getCollectionNames = function (req, res){
 						keyObj[element] = arr;
 						keyArr.push(keyObj);
 					}
-					Q.all(keyArr).then(res.send(keyArr));
-					// setTimeout(function(){
-					// 	res.send(keyArr);
-					// },100);
+					//Q.all(keyArr).then(res.send(keyArr));
+					 setTimeout(function(){
+					 	res.send(keyArr);
+					 },100);
 				});
 			});
 		});
