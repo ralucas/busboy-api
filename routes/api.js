@@ -3,7 +3,6 @@ var MongoClient = require('mongodb').MongoClient
 var _ = require('underscore');
 var ObjectID = require('mongodb').ObjectID;
 var mongoose = require('mongoose');
-var async = require('async');
 var Q = require('q');
 
 var localMongo = 'mongodb://127.0.0.1:27017/rtd';
@@ -40,7 +39,7 @@ exports.findAll = function(req, res) {
 	MongoClient.connect(MongoUrl, function(err, db) {
 		if(err) throw err;
 		db.collection(collectionName).find({})
-		.limit(10)
+		//.limit(10)
 		.toArray(function(err, docs) {
 			res.send(docs);
 		});
