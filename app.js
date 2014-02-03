@@ -8,7 +8,7 @@ var path = require('path');
 var _ = require('underscore');
 
 // new relic
-require('newrelic');
+//require('newrelic');
 
 var app = express();
 var server = http.createServer(app);
