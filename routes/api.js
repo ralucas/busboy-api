@@ -8,8 +8,6 @@ var MongoClient = require('mongodb').MongoClient,
 var localMongo = 'mongodb://127.0.0.1:27017/rtd';
 var MongoUrl = process.env.MONGOHQ_URL ? process.env.MONGOHQ_URL : localMongo;
 
-console.log(MongoUrl);
-
 //values function
 var values = function(arr, key) {
     fieldArray = [];
@@ -137,7 +135,8 @@ exports.getCollectionNames = function(req, res) {
             var collNames = prefixRemove(colls);
             var keyArr = [];
             collNames.forEach(function(element, index, collNames) {
-                db.collection(element).findOne({}, function(err, docs) {
+                db.collection(element)
+                .findOne({}, function(err, docs) {
                     if(docs){
                         var arr = [];
                         for(var key in docs) {
@@ -149,7 +148,7 @@ exports.getCollectionNames = function(req, res) {
                     }
                     setTimeout(function(){
                         res.send(keyArr);
-                    },100);
+                    }, 200);
                 });
             });
         });
