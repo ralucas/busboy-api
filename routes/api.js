@@ -111,12 +111,12 @@ exports.findByValue = function(req, res) {
 exports.findByLocation = function(req, res) {
     var lat = req.params.lat,
         lon = req.params.lon,
+        deferred = Q.defer();
         output;
 
         MongoClient.connect(MongoUrl, function(err, db) {
             if (err) new Error(err);
             db.collection('stops').find({}, function(err, docs) {
-                var deferred = Q.defer();
                 if (err) {
                     deferred.reject(new Error(err));
                 } else {
