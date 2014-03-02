@@ -111,7 +111,7 @@ exports.findByValue = function(req, res) {
 exports.findByLocation = function(req, res) {
     var lat = req.params.lat,
         lon = req.params.lon,
-        deferred = Q.defer();
+        deferred = Q.defer(),
         output;
 
         MongoClient.connect(MongoUrl, function(err, db) {
