@@ -8,6 +8,8 @@ var MongoClient = require('mongodb').MongoClient,
 var localMongo = 'mongodb://127.0.0.1:27017/rtd';
 var MongoUrl = process.env.MONGOHQ_URL ? process.env.MONGOHQ_URL : localMongo;
 
+console.log('mongourl', MongoUrl);
+
 //values function
 var values = function(arr, key) {
     fieldArray = [];
