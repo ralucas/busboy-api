@@ -2,14 +2,13 @@ var MongoClient = require('mongodb').MongoClient,
     format = require('util').format,
     _ = require('underscore'),
     ObjectID = require('mongodb').ObjectID,
-    mongoose = require('mongoose'),
     Q = require('q'),
     calculate = require('../helpers/calculate');
 
 var localMongo = 'mongodb://127.0.0.1:27017/rtd';
 var MongoUrl = process.env.MONGOHQ_URL ? process.env.MONGOHQ_URL : localMongo;
 
-mongoose.connect(MongoUrl);
+console.log(MongoUrl);
 
 //values function
 var values = function(arr, key) {
