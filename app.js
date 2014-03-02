@@ -43,6 +43,8 @@ app.get('/api/:collection/:id', api.findById);
 //app.get('/api/:collection/:parameter', api.findByParameter);
 app.get('/api/:collection/:parameter/:value', api.findByValue);
 
+app.get('/get/stops/:lat/:lon', api.findByLocation);
+
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

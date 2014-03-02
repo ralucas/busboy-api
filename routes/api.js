@@ -1,9 +1,10 @@
-var MongoClient = require('mongodb').MongoClient
-    , format = require('util').format;
-var _ = require('underscore');
-var ObjectID = require('mongodb').ObjectID;
-var mongoose = require('mongoose');
-var Q = require('q');
+var MongoClient = require('mongodb').MongoClient,
+    format = require('util').format,
+    _ = require('underscore'),
+    ObjectID = require('mongodb').ObjectID,
+    mongoose = require('mongoose'),
+    Q = require('q'),
+    calculate = require('../helpers/calculate');
 
 var localMongo = 'mongodb://127.0.0.1:27017/rtd';
 var MongoUrl = process.env.MONGOHQ_URL ? process.env.MONGOHQ_URL : localMongo;
@@ -41,7 +42,6 @@ exports.findAll = function(req, res) {
     MongoClient.connect(MongoUrl, function(err, db) {
         if(err) throw err;
         db.collection(collectionName).find({})
-        .limit(10)
         .toArray(function(err, docs) {
             res.send(docs);
         });
@@ -87,7 +87,7 @@ exports.findByValue = function(req, res) {
     var pair = {};
     pair[parameter] = value;
     MongoClient.connect(MongoUrl, function(err, db) {
-        if(err) throw err;
+        if(err) new Error(err);
         db.collection(collectionName).find(pair)
         .limit(10)
         .toArray(function(err, docs) {
@@ -96,20 +96,49 @@ exports.findByValue = function(req, res) {
     });
 };
 
+// exports.findByTime = function(req, res) {
+//     var collectionName = req.params.collection,
+//         beginTime = req.params.begin,
+//         endTime = req.params.end;
+
+//         MongoClient.connect(MongoUrl, function(err, db) {
+//             if(err) console.error('ERROR in findByTime');
+//             db.collection(collectionName)
+//                 .find({beginTime < 'arrival_time': beginTime})
+//         })
+// }
+
+exports.findByLocation = function(req, res) {
+    var lat = req.params.lat,
+        lon = req.params.lon,
+        output;
+
+        MongoClient.connect(MongoUrl, function(err, db) {
+            if (err) new Error(err);
+            db.collection('stops').find({}, function(err, docs) {
+                var deferred = Q.defer();
+                if (err) {
+                    deferred.reject(new Error(err));
+                } else {
+                    output = calculate.calculateDistance(lat, lon, docs);
+                    deferred.resolve(output);
+                }
+            });
+        });
+    res.send(deferred.promise);
+};
+
 //creates array of collection names and their associated keys
 exports.getCollectionNames = function(req, res) {
     MongoClient.connect(MongoUrl, function(err, db) {
         if(err) throw err;
-        // TODO: can a promise be put here
         db.collectionNames(function(err, collections) {
             console.log(collections);
             var colls = values(collections, 'name');
             var collNames = prefixRemove(colls);
             var keyArr = [];
-            // TODO: can a promise be put here
             collNames.forEach(function(element, index, collNames) {
-                db.collection(element)
-                .findOne({}, function(err, docs) {
+                db.collection(element).findOne({}, function(err, docs) {
                     if(docs){
                         var arr = [];
                         for(var key in docs) {
@@ -119,10 +148,9 @@ exports.getCollectionNames = function(req, res) {
                         keyObj[element] = arr;
                         keyArr.push(keyObj);
                     }
-                    Q(keyArr).done(res.send(keyArr));
-                    // setTimeout(function(){
-                    //     res.send(keyArr);
-                    // },100);
+                    setTimeout(function(){
+                        res.send(keyArr);
+                    },100);
                 });
             });
         });
