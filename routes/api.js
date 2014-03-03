@@ -2,13 +2,10 @@ var MongoClient = require('mongodb').MongoClient
 	, format = require('util').format;
 var _ = require('underscore');
 var ObjectID = require('mongodb').ObjectID;
-var mongoose = require('mongoose');
 var Q = require('q');
 
 var localMongo = 'mongodb://127.0.0.1:27017/rtd';
 var MongoUrl = process.env.MONGOHQ_URL ? process.env.MONGOHQ_URL : localMongo;
-
-mongoose.connect(MongoUrl);
 
 //values function
 var values = function(arr, key) {
@@ -38,8 +35,8 @@ exports.findAll = function(req, res) {
 	var collectionName = req.params.collection;
 	MongoClient.connect(MongoUrl, function(err, db) {
 		if(err) throw err;
-		db.collection(collectionName).find({})
-		//.limit(10)
+		db.collection(collectionName)
+		.find({})
 		.toArray(function(err, docs) {
 			res.send(docs);
 		});
